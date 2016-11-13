@@ -4,7 +4,7 @@ using namespace std;
 
 void encode(string input, string output)
 {
-	char arr[16] = {
+	unsigned char arr[16] = {
 		0x0,0b1101,0b10111,0b11010,0b100011,0b101110,
 		0b110100,0b111001,0b1000110,0b1001011,0b1010001,
 		0b1011100,0b1100101,0b1101000,0b1110010,0b1111111
@@ -16,7 +16,10 @@ void encode(string input, string output)
 	int i=0;
 	int p=0;
 	while(!feof(inp)){
-		ch = getc(inp);
+		ch=getc(inp);
+		if(feof(inp)){
+			break;
+		}
 		p++;
 		temp = ch;
 		temp = temp >> 4;
@@ -47,7 +50,7 @@ void encode(string input, string output)
 			temp = temp >> (8-i-1);
 			byte = byte | temp;
 			//out.put(byte);
-			putc(nbyte,outp);
+			putc(byte,outp);
 			i++;
 		}
 	}
@@ -57,6 +60,11 @@ void encode(string input, string output)
 //systematic cyclic encoding
 int main()
 {
-	encode("test","testout");
+	encode("hoffcode","testout");
+	// unsigned char ch = 0xff;
+	// for(int i=0; i<7; i++)
+	// {
+	// 	putchar(ch);
+	// }
 	return 0;
 }

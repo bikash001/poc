@@ -39,6 +39,6 @@ void prob(string fname)
 
 int main()
 {
-	prob("input2");
+	prob("input4");
 	return 0;
 }

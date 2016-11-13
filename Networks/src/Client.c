@@ -110,7 +110,7 @@ int  main (int argc, char **argv)
 	FILE* fp = fopen("input", "rb");  //input data after channel coding
 
 	//bit error rate
-	double ber = 0.001; //error probability
+	double ber = 0.02; //error probability
 	//error = (int)(1/ber);
 
 	if (argc != 5) {

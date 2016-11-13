@@ -15,20 +15,40 @@ void decode(string input, string output)
 		0x46,0x4b,0x51,0x5c,0x65,0x68,0x72,0x7f
 	};
 	for(int i=0; i<16; i++){
-		map[(unsigned char)i] = arr[i];
+		map[arr[i]] = i;
 	}
 	end = map.end();
-	unsigned char ch,byte,nbyte,chnext;
+	unsigned char ch,byte,nbyte,chnext=0,temp;
+
 	int count = 1;
-	while(!feof(inp)){
+	while((temp=getc(inp))){
+		if(feof(inp)){
+			return;
+		}
 		if(count % 2 == 1){
-			ch = getc(inp);
+			ch = temp;
 			byte = ch;
 			ch = ch << (8-count);
 			ch = ch >> 1;			
 			if(count == 7){
+				byte = byte >> 7;
+				byte = byte | chnext;
+				begin = map.find(byte);
+				if(begin != end){
+					nbyte = begin->second;
+					nbyte = nbyte << 4;
+				}else{
+					cout << "error 0" << endl;
+				}
+				begin = map.find(ch);
+				if(begin != end){
+					ch = begin->second;
+					nbyte = nbyte | ch;
+					putc(nbyte,outp);
+				}else{
+					cout << "error 0" << endl;
+				}
 				count = 1;
-				putc(ch,outp);
 			}else{
 				byte = byte >> count;
 				byte = byte | chnext;
@@ -37,12 +57,12 @@ void decode(string input, string output)
 					nbyte = begin->second;
 					nbyte = nbyte << 4;
 				}else{
-					cout << "error" << endl;
+					cout << "error 0" << endl;
 				}
 				count++;
 			}
 		}else{
-			chnext = getc(inp);
+			chnext = temp;
 			byte = chnext;
 			chnext = chnext << (8-count);
 			chnext = chnext >> 1;
